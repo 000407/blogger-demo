@@ -22,6 +22,7 @@ public class BlogPostController implements BlogPostApi {
     @PreAuthorize("hasRole('ROLE_READER')")
     public ResponseEntity<ServerResponse<List<BlogPost>>> getAllPosts(int offset, int limit) {
         final List<BlogPost> allPosts = blogPostService.getAllPosts(offset, limit);
+
         return ResponseEntity.ok(
                 ServerResponse.<List<BlogPost>>builder()
                         .message(ServerResponseMessage.SUCCESS)
@@ -33,13 +34,27 @@ public class BlogPostController implements BlogPostApi {
     @Override
     @PreAuthorize("hasRole('ROLE_READER')")
     public ResponseEntity<ServerResponse<BlogPost>> getPostById(long id) {
-        return BlogPostApi.super.getPostById(id);
+        final BlogPost blogPost = blogPostService.getPostById(id);
+
+        return ResponseEntity.ok(
+                ServerResponse.<BlogPost>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .payload(blogPost)
+                        .build()
+        );
     }
 
     @Override
     @PreAuthorize("hasRole('ROLE_READER')")
-    public ResponseEntity<ServerResponse<List<Comment>>> getPostCommentsById(long id) {
-        return BlogPostApi.super.getPostCommentsById(id);
+    public ResponseEntity<ServerResponse<List<Comment>>> getPostCommentsById(long id, int offset, int limit) {
+        final List<Comment> comments = blogPostService.getPostCommentsById(id, offset, limit);
+
+        return ResponseEntity.ok(
+                ServerResponse.<List<Comment>>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .payload(comments)
+                        .build()
+        );
     }
 
     @Override
@@ -59,7 +74,26 @@ public class BlogPostController implements BlogPostApi {
     }
 
     @Override
-    public ResponseEntity<ServerResponse<Long>> updatePost(long id, UpdatedBlogPost update) {
-        return BlogPostApi.super.updatePost(id, update);
+    @PreAuthorize("hasRole('ROLE_WRITER')")
+    public ResponseEntity<ServerResponse<BlogPost>> updatePost(UpdatedBlogPost update) {
+        final BlogPost blogPost = blogPostService.updatePost(update);
+
+        return ResponseEntity.ok(
+                ServerResponse.<BlogPost>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .payload(blogPost)
+                        .build()
+        );
+    }
+
+    @Override
+    @PreAuthorize("hasRole('ROLE_WRITER')")
+    public ResponseEntity<ServerResponse<Void>> deletePostById(long id) {
+        blogPostService.deletePost(id);
+        return ResponseEntity.ok(
+                ServerResponse.<Void>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .build()
+        );
     }
 }

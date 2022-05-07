@@ -12,8 +12,8 @@ import com.kaze2.demo.blogger.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +51,7 @@ public class AuthorDefaultService implements AuthorService {
     }
 
     @Override
+    @Transactional
     public Author updateAuthorInfo(UpdatedAuthor update) {
         final AuthorData author = authorRepo.findById(update.getId())
                 .orElseThrow(() -> new NotFoundException(ResourceType.AUTHOR, update.getId()));

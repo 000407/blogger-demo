@@ -12,11 +12,11 @@ public interface BlogPostService {
 
     BlogPost getPostById(long id);
 
-    List<Comment> getPostCommentsById(long id, int offset, int limit);
+    List<Comment> getPostCommentsById(long postId, int offset, int limit);
 
     Long createNewPost(NewBlogPost newPost);
 
-    Long updatePost(UpdatedBlogPost updatedBlogPost);
+    BlogPost updatePost(UpdatedBlogPost updatedBlogPost);
 
     Long deletePost(long postId);
 }

@@ -22,7 +22,9 @@ public interface BlogPostApi {
     }
 
     @GetMapping("/where/id/{id}/comments")
-    default ResponseEntity<ServerResponse<List<Comment>>> getPostCommentsById(@PathVariable long id) {
+    default ResponseEntity<ServerResponse<List<Comment>>> getPostCommentsById(@PathVariable long id,
+                                                                              @RequestParam int offset,
+                                                                              @RequestParam int limit) {
         throw new NotImplementedException();
     }
 
@@ -31,9 +33,13 @@ public interface BlogPostApi {
         throw new NotImplementedException();
     }
 
-    @PutMapping("/update/{id}")
-    default ResponseEntity<ServerResponse<Long>> updatePost(@PathVariable long id,
-                                                            @RequestBody UpdatedBlogPost update) {
+    @PutMapping("/update")
+    default ResponseEntity<ServerResponse<BlogPost>> updatePost(@RequestBody UpdatedBlogPost update) {
+        throw new NotImplementedException();
+    }
+
+    @DeleteMapping("/where/id/{id}")
+    default ResponseEntity<ServerResponse<Void>> deletePostById(@PathVariable long id) {
         throw new NotImplementedException();
     }
 }

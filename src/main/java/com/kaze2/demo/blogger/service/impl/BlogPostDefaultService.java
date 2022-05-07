@@ -12,10 +12,12 @@ import com.kaze2.demo.blogger.model.BlogPostData;
 import com.kaze2.demo.blogger.model.repo.AuthorRepo;
 import com.kaze2.demo.blogger.model.repo.BlogPostRepo;
 import com.kaze2.demo.blogger.service.BlogPostService;
+import com.kaze2.demo.blogger.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +29,7 @@ public class BlogPostDefaultService implements BlogPostService {
     private final AuthorRepo authorRepo;
     private final BlogPostRepo blogPostRepo;
     private final BlogPostMappingFunction blogPostMappingFunction;
+    private final CommentService commentService;
 
     @Override
     public List<BlogPost> getAllPosts(int offset, int limit) {
@@ -43,11 +46,8 @@ public class BlogPostDefaultService implements BlogPostService {
     }
 
     @Override
-    public List<Comment> getPostCommentsById(long id, int offset, int limit) {
-        return blogPostRepo.findById(id)
-                .map(blogPostMappingFunction)
-                .map(BlogPost::getComments)
-                .orElseThrow(() -> new NotFoundException(ResourceType.COMMENT, id));
+    public List<Comment> getPostCommentsById(long postId, int offset, int limit) {
+        return commentService.getPostCommentsById(postId, offset, limit);
     }
 
     @Override
@@ -66,18 +66,19 @@ public class BlogPostDefaultService implements BlogPostService {
     }
 
     @Override
-    public Long updatePost(UpdatedBlogPost updatedBlogPost) {
+    @Transactional
+    public BlogPost updatePost(UpdatedBlogPost updatedBlogPost) {
         final BlogPostData blogPostData = blogPostRepo.findById(updatedBlogPost.getId())
                 .orElseThrow(() -> new NotFoundException(ResourceType.BLOG_POST, updatedBlogPost.getId()));
 
         blogPostData.setTitle(updatedBlogPost.getTitle());
         blogPostData.setBody(updatedBlogPost.getBody());
 
-        return blogPostRepo.save(blogPostData)
-                .getId();
+        return blogPostMappingFunction.apply(blogPostRepo.save(blogPostData));
     }
 
     @Override
+    @Transactional
     public Long deletePost(long postId) {
         blogPostRepo.deleteById(postId);
         return postId;
