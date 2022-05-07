@@ -34,7 +34,7 @@ public interface BlogPostApi {
         throw new NotImplementedException();
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/update/{id}")
     default ResponseEntity<ServerResponse<Long>> updatePost(@PathVariable long id,
                                                             @RequestBody BlogPost blogPost) {
         throw new NotImplementedException();
