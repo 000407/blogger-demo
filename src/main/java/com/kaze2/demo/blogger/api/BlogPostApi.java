@@ -2,29 +2,41 @@ package com.kaze2.demo.blogger.api;
 
 import com.kaze2.demo.blogger.api.exception.NotImplementedException;
 import com.kaze2.demo.blogger.api.payload.BlogPost;
+import com.kaze2.demo.blogger.api.payload.Comment;
+import com.kaze2.demo.blogger.api.payload.NewBlogPost;
 import com.kaze2.demo.blogger.api.payload.ServerResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/v1.0/posts")
 public interface BlogPostApi {
-    @RouterOperation(
-            operation = @Operation(
-                    description = "Retrieve all blog posts", operationId = "hello", tags = "persons",
-                    responses = @ApiResponse(
-                            responseCode = "200",
-                            content = @Content(
-                                    schema = @Schema(implementation = BlogPost.class)))))
     @GetMapping("/all")
-    default ResponseEntity<ServerResponse<List<BlogPost>>> getAllPosts() {
+    default ResponseEntity<ServerResponse<List<BlogPost>>> getAllPosts(@RequestParam int offset,
+                                                                       @RequestParam int limit) {
+        throw new NotImplementedException();
+    }
+
+    @GetMapping("/where/id/{id}")
+    default ResponseEntity<ServerResponse<BlogPost>> getPostById(@PathVariable long id) {
+        throw new NotImplementedException();
+    }
+
+    @GetMapping("/where/id/{id}/comments")
+    default ResponseEntity<ServerResponse<List<Comment>>> getPostCommentsById(@PathVariable long id) {
+        throw new NotImplementedException();
+    }
+
+    @PostMapping("/new")
+    default ResponseEntity<ServerResponse<Map<String, Object>>> createNewPost(@RequestBody NewBlogPost newBlogPost) {
+        throw new NotImplementedException();
+    }
+
+    @PostMapping("/update/{id}")
+    default ResponseEntity<ServerResponse<Long>> updatePost(@PathVariable long id,
+                                                            @RequestBody BlogPost blogPost) {
         throw new NotImplementedException();
     }
 }

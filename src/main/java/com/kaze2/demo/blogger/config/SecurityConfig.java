@@ -15,14 +15,21 @@ import static com.kaze2.demo.blogger.config.UserRole.*;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
                 .authorizeRequests()
                 .antMatchers(
                         "/swagger-ui/**",
                         "/v3/api-docs/**",
-                        "/actuator/**").permitAll()
-                .anyRequest().authenticated();
+                        "/actuator/**",
+                        "/h2-console/**")
+                .permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+
+        httpSecurity.csrf().disable();
+        httpSecurity.headers().frameOptions().disable();
     }
 
     @Override

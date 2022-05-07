@@ -15,4 +15,20 @@ public class ApiExceptionHandler {
                         .message(e.getMessage())
                         .build());
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ServerResponse<Void>> handle(NotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ServerResponse.<Void>builder()
+                        .message(e.getMessage())
+                        .build());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ServerResponse<Void>> handle(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ServerResponse.<Void>builder()
+                        .message(e.getMessage())
+                        .build());
+    }
 }
