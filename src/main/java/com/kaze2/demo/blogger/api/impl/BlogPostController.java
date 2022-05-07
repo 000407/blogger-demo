@@ -31,16 +31,19 @@ public class BlogPostController implements BlogPostApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_READER')")
     public ResponseEntity<ServerResponse<BlogPost>> getPostById(long id) {
         return BlogPostApi.super.getPostById(id);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_READER')")
     public ResponseEntity<ServerResponse<List<Comment>>> getPostCommentsById(long id) {
         return BlogPostApi.super.getPostCommentsById(id);
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_WRITER')")
     public ResponseEntity<ServerResponse<Map<String, Object>>> createNewPost(NewBlogPost newBlogPost) {
         final long postId = blogPostService.createNewPost(newBlogPost);
 

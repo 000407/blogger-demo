@@ -6,6 +6,7 @@ import com.kaze2.demo.blogger.api.payload.*;
 import com.kaze2.demo.blogger.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class AuthorController implements AuthorApi {
     private final AuthorService authorService;
 
     @Override
+    @PreAuthorize("hasRole('ROLE_WRITER')")
     public ResponseEntity<ServerResponse<Map<String, Object>>> registerNewAuthor(NewAuthor newAuthor) {
         final long authorId = authorService.registerNewAuthor(newAuthor);
 
@@ -33,6 +35,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_READER')")
     public ResponseEntity<ServerResponse<List<Author>>> getAllAuthors(int offset, int limit) {
         List<Author> authors = authorService.getAllAuthors(offset, limit);
 
@@ -45,6 +48,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_READER')")
     public ResponseEntity<ServerResponse<Author>> getAuthorById(long id) {
         final Author author = authorService.getAuthorById(id);
 
@@ -57,6 +61,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_WRITER')")
     public ResponseEntity<ServerResponse<Author>> updateAuthorDetails(UpdatedAuthor update) {
         final Author updatedAuthor = authorService.updateAuthorInfo(update);
 
@@ -69,6 +74,7 @@ public class AuthorController implements AuthorApi {
     }
 
     @Override
+    @PreAuthorize("hasRole('ROLE_WRITER')")
     public ResponseEntity<ServerResponse<Void>> deleteAuthorDetails(Long id) {
         authorService.deleteAuthorById(id);
 
