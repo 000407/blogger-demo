@@ -1,10 +1,7 @@
 package com.kaze2.demo.blogger.api;
 
 import com.kaze2.demo.blogger.api.exception.NotImplementedException;
-import com.kaze2.demo.blogger.api.payload.BlogPost;
-import com.kaze2.demo.blogger.api.payload.Comment;
-import com.kaze2.demo.blogger.api.payload.NewBlogPost;
-import com.kaze2.demo.blogger.api.payload.ServerResponse;
+import com.kaze2.demo.blogger.api.payload.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +33,7 @@ public interface BlogPostApi {
 
     @PutMapping("/update/{id}")
     default ResponseEntity<ServerResponse<Long>> updatePost(@PathVariable long id,
-                                                            @RequestBody BlogPost blogPost) {
+                                                            @RequestBody UpdatedBlogPost update) {
         throw new NotImplementedException();
     }
 }

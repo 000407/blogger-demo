@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,6 +28,53 @@ public class AuthorController implements AuthorApi {
                 ServerResponse.<Map<String, Object>>builder()
                         .message(ServerResponseMessage.SUCCESS)
                         .payload(payload)
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<ServerResponse<List<Author>>> getAllAuthors(int offset, int limit) {
+        List<Author> authors = authorService.getAllAuthors(offset, limit);
+
+        return ResponseEntity.ok(
+                ServerResponse.<List<Author>>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .payload(authors)
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<ServerResponse<Author>> getAuthorById(long id) {
+        final Author author = authorService.getAuthorById(id);
+
+        return ResponseEntity.ok(
+                ServerResponse.<Author>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .payload(author)
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<ServerResponse<Author>> updateAuthorDetails(UpdatedAuthor update) {
+        final Author updatedAuthor = authorService.updateAuthorInfo(update);
+
+        return ResponseEntity.ok(
+                ServerResponse.<Author>builder()
+                        .message(ServerResponseMessage.SUCCESS)
+                        .payload(updatedAuthor)
+                        .build()
+        );
+    }
+
+    @Override
+    public ResponseEntity<ServerResponse<Void>> deleteAuthorDetails(Long id) {
+        authorService.deleteAuthorById(id);
+
+        return ResponseEntity.ok(
+                ServerResponse.<Void>builder()
+                        .message(ServerResponseMessage.SUCCESS)
                         .build()
         );
     }

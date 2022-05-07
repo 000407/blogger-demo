@@ -2,10 +2,7 @@ package com.kaze2.demo.blogger.api.impl;
 
 import com.kaze2.demo.blogger.api.BlogPostApi;
 import com.kaze2.demo.blogger.api.constant.ServerResponseMessage;
-import com.kaze2.demo.blogger.api.payload.BlogPost;
-import com.kaze2.demo.blogger.api.payload.Comment;
-import com.kaze2.demo.blogger.api.payload.NewBlogPost;
-import com.kaze2.demo.blogger.api.payload.ServerResponse;
+import com.kaze2.demo.blogger.api.payload.*;
 import com.kaze2.demo.blogger.service.BlogPostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -59,7 +56,7 @@ public class BlogPostController implements BlogPostApi {
     }
 
     @Override
-    public ResponseEntity<ServerResponse<Long>> updatePost(long id, BlogPost blogPost) {
-        return BlogPostApi.super.updatePost(id, blogPost);
+    public ResponseEntity<ServerResponse<Long>> updatePost(long id, UpdatedBlogPost update) {
+        return BlogPostApi.super.updatePost(id, update);
     }
 }
