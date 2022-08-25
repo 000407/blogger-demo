@@ -3,7 +3,7 @@ on:
   repository_dispatch:
     types: [ docker-build-command ]
 jobs:
-  dockerBuildAndPush:
+  docker-build-and-push:
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU

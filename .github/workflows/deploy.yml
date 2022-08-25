@@ -3,7 +3,7 @@ on:
   repository_dispatch:
     types: [ deploy-command ]
 jobs:
-  example:
+  aws-ecs-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Add reaction
