@@ -12,4 +12,5 @@ jobs:
           reactions: true
           token: ${{ secrets.BLOGGER_PAT_V2 }}
           commands: |
+            docker-build
             deploy
