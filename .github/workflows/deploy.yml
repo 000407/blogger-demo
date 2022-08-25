@@ -39,3 +39,11 @@ jobs:
           service: ${{ env.ECS_SERVICE }}
           cluster: ${{ env.ECS_CLUSTER }}
           wait-for-service-stability: false
+
+      - name: Add reaction
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.BLOGGER_PAT_V2 }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray
