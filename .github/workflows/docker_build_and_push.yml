@@ -20,7 +20,7 @@ jobs:
           settings-path: ${{ github.workspace }} # location for the settings.xml file
 
       - name: Clean Install
-        run: mvn -B clean install --file blogger-be/pom.xml
+        run: mvn clean install
 
       - name: Temporarily save jar artifact
         uses: actions/upload-artifact@v2
