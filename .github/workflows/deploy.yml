@@ -1,7 +1,7 @@
 name: deploy-command
 on:
   repository_dispatch:
-    types: [deploy-command]
+    types: [ deploy-command ]
 jobs:
   example:
     runs-on: ubuntu-latest
