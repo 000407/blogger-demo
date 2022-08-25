@@ -26,7 +26,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: jar-artifact
-          path: ${{ github.workspace }}/blogger-be/target/*.jar
+          path: ${{ github.workspace }}/target/*.jar
           retention-days: 1
 
   deploy:
