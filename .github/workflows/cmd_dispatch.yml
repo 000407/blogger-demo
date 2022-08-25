@@ -1,16 +1,15 @@
 name: Slash Command Dispatch
 on:
   issue_comment:
-    types: [ created ]
+    types: [created]
 jobs:
   slashCommandDispatch:
     runs-on: ubuntu-latest
     steps:
-      - uses: peter-evans/slash-command-dispatch@v3
+      - name: Slash Command Dispatch
+        uses: peter-evans/slash-command-dispatch@v3
         with:
           token: ${{ secrets.BLOGGER_PAT }}
-          reactions: "seen", "dispatched"
-          allow-edits: true
           commands: |
             deploy
             integration-test
