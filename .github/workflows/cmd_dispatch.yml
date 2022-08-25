@@ -6,13 +6,10 @@ jobs:
   slashCommandDispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Echo token
-        run:
-          echo Token is "${{ secrets.BLOGGER_PAT }}"
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v3.0.0
         with:
           reactions: true
-          token: "TOKEN_VALUE"
+          token: ${{ secrets.BLOGGER_PAT }}
           commands: |
             deploy
