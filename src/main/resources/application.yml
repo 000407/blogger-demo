@@ -12,4 +12,4 @@ spring:
     hibernate:
       ddl-auto: create-drop
 app:
-  redeploy_count: 1
+  redeploy_count: 2
