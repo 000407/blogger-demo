@@ -8,7 +8,7 @@ env:
   AWS_REGION: "ap-northeast-1"
   ECS_SERVICE: "blogger-be-service"
   ECS_CLUSTER: "blogger-cluster"
-  ECS_TASK_DEFINITION: "blogger-be-service"
+  ECS_TASK_DEFINITION: "task-definition.json"
   CONTAINER_NAME: "blogger-be-service"
 
 jobs:
@@ -27,6 +27,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition blogger-be-service --query taskDefinition > task-definition.json
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
