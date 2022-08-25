@@ -1,15 +1,37 @@
 name: deploy-command
+
 on:
   repository_dispatch:
     types: [ deploy-command ]
+
+env:
+  AWS_REGION: "ap-northeast-1"
+  ECS_SERVICE: "blogger-be-service"
+  ECS_CLUSTER: "blogger-cluster"
+  ECS_TASK_DEFINITION: "blogger-be-service"
+  CONTAINER_NAME: "blogger-be-service"
+
 jobs:
-  aws-ecs-deploy:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    environment: production
+
     steps:
-      - name: Add reaction
-        uses: peter-evans/create-or-update-comment@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
         with:
-          token: ${{ secrets.BLOGGER_PAT_V2 }}
-          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
-          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
-          reaction-type: hooray
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true
