@@ -9,7 +9,9 @@ jobs:
       - name: Slash Command Dispatch
         uses: peter-evans/slash-command-dispatch@v3.0.0
         with:
-          token: ${{ secrets.BLOGGER_PAT }}
           reactions: true
+          token: ${{ secrets.BLOGGER_PAT_V2 }}
           commands: |
+            docker-build
             deploy
+            say
