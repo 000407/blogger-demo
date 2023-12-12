@@ -1,7 +1,7 @@
-name: docker-build-command
+name: say-command
 on:
   repository_dispatch:
-    types: [ docker-build-command ]
+    types: [ say-command ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,3 +14,10 @@ jobs:
         run: |
           message=${{ github.event.client_payload.slash_command.args.named.message }}
           echo "Message: $message"
+      - name: Add Reaction
+        uses: peter-evans/create-or-update-comment@v2
+        with:
+          token: ${{ secrets.BLOGGER_PAT_V2 }}
+          repository: ${{ github.event.client_payload.github.payload.repository.full_name }}
+          comment-id: ${{ github.event.client_payload.github.payload.comment.id }}
+          reaction-type: hooray
